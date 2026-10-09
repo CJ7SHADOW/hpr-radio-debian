@@ -1,0 +1,64 @@
+/* Warm "barn wood and lamplight" palette, matching the Android app. */
+@define-color accent_bg_color #8A4B1F;
+@define-color accent_fg_color #FFFFFF;
+@define-color accent_color #8A4B1F;
+@define-color window_bg_color #FBF6EC;
+@define-color view_bg_color #FBF6EC;
+@define-color headerbar_bg_color #F2E8D5;
+@define-color card_bg_color #F2E8D5;
+@define-color popover_bg_color #FBF6EC;
+@define-color hpr_bar_bg #EDE0C8;
+@define-color hpr_ink #2B1D12;
+@define-color hpr_dim #5B4636;
+
+window, .background { color: @hpr_ink; }
+
+.eyebrow {
+  color: @accent_color;
+  font-weight: 800;
+  font-size: 0.78em;
+  letter-spacing: 0.08em;
+}
+.hero-title { font-family: serif; font-weight: 800; font-size: 1.85em; }
+.page-title { font-family: serif; font-weight: 800; font-size: 1.45em; }
+.subtitle { color: @hpr_dim; }
+.dim { color: @hpr_dim; opacity: 0.9; }
+.row-title { font-weight: 700; }
+.row-title.current { color: @accent_color; }
+.section { font-weight: 800; font-size: 1.05em; margin-top: 14px; }
+
+.art { border-radius: 12px; }
+.art.radius-8 { border-radius: 8px; }
+.art.radius-16 { border-radius: 16px; }
+.art.radius-20 { border-radius: 20px; }
+.art-tile { background-color: #5B4636; }
+.art-label { color: #F6D58A; font-weight: 900; }
+.art-label-xs { font-size: 11px; }
+.art-label-s { font-size: 15px; }
+.art-label-m { font-size: 26px; }
+.art-label-l { font-size: 56px; }
+
+list.boxed-list > row { padding: 8px 10px; }
+list.boxed-list > row.selected-channel { background-color: alpha(@accent_bg_color, 0.14); }
+
+.np-bar {
+  background-color: @hpr_bar_bg;
+  border-top: 1px solid alpha(black, 0.08);
+  padding: 10px 14px;
+}
+.np-bar .np-heading { color: @accent_color; font-weight: 700; font-size: 0.9em; }
+.np-target { border-radius: 10px; padding: 2px; }
+.np-target:hover { background-color: alpha(@accent_bg_color, 0.08); }
+
+.continue-card {
+  background-color: alpha(@accent_bg_color, 0.14);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.status { color: @hpr_dim; }
+.status.error { color: @error_color; }
+.footer { color: @hpr_dim; font-size: 0.85em; }
+.footer-small { color: @hpr_dim; font-size: 0.75em; opacity: 0.8; }
+.time { color: @hpr_dim; font-size: 0.85em; font-feature-settings: "tnum"; }
+.skip-label { font-size: 0.7em; font-weight: 800; }
+progressbar.thin > trough, progressbar.thin > trough > progress { min-height: 4px; }

@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+debian/.debhelper/
+debian/hpr-radio/
+debian/files
+debian/*.substvars
+debian/*.debhelper.log
+debian/debhelper-build-stamp
+debian/test-home/

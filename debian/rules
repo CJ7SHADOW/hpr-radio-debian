@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	# Pure Python: nothing to compile.
+
+override_dh_auto_test:
+	HOME=$(CURDIR)/debian/test-home python3 -m unittest discover -s tests -v
+
+override_dh_auto_install:
+	install -d debian/hpr-radio/usr/share/hpr-radio/data debian/hpr-radio/usr/share/hpr-radio/hpr_radio/ui
+	install -m 644 hpr_radio/*.py debian/hpr-radio/usr/share/hpr-radio/hpr_radio/
+	install -m 644 hpr_radio/ui/*.py debian/hpr-radio/usr/share/hpr-radio/hpr_radio/ui/
+	install -m 644 data/channels.json data/style.css data/style-dark.css debian/hpr-radio/usr/share/hpr-radio/data/
+	install -D -m 755 packaging/hpr-radio debian/hpr-radio/usr/bin/hpr-radio
+	install -D -m 644 data/org.kg4bhr.HprRadio.desktop debian/hpr-radio/usr/share/applications/org.kg4bhr.HprRadio.desktop
+	install -D -m 644 data/org.kg4bhr.HprRadio.metainfo.xml debian/hpr-radio/usr/share/metainfo/org.kg4bhr.HprRadio.metainfo.xml
+	for s in 16 32 48 64 128 256 512; do \
+	  install -D -m 644 data/icons/org.kg4bhr.HprRadio-$$s.png \
+	    debian/hpr-radio/usr/share/icons/hicolor/$${s}x$${s}/apps/org.kg4bhr.HprRadio.png; \
+	done

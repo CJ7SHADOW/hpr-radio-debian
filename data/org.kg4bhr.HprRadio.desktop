@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=HPR Radio
+GenericName=Radio Player
+Comment=Listen to Heartland Public Radio: Classic Country and Bluegrass Gospel
+Exec=hpr-radio
+Icon=org.kg4bhr.HprRadio
+Terminal=false
+Categories=AudioVideo;Audio;Player;GTK;
+Keywords=radio;country;bluegrass;gospel;HPR;Heartland;
+StartupNotify=true
+SingleMainWindow=true
+DBusActivatable=false

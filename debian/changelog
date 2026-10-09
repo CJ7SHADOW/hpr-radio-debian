@@ -1,0 +1,7 @@
+hpr-radio (1.0.0) unstable; urgency=medium
+
+  * First release: live channels with album art and recently played songs,
+    automatic reconnect and stream failover, Good 'N Country episodes with
+    resume, MPRIS media keys, channel list from channels.json.
+
+ -- Shawn Bolton <kg4bhr@verizon.net>  Fri, 09 Oct 2026 12:00:00 -0500

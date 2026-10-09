@@ -1,0 +1,32 @@
+Source: hpr-radio
+Section: sound
+Priority: optional
+Maintainer: Shawn Bolton <kg4bhr@verizon.net>
+Build-Depends: debhelper-compat (= 13),
+               python3,
+               python3-gi
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://hpr.org
+
+Package: hpr-radio
+Architecture: all
+Depends: ${misc:Depends},
+         python3 (>= 3.11),
+         python3-gi,
+         gir1.2-gtk-4.0,
+         gir1.2-adw-1,
+         gir1.2-gstreamer-1.0,
+         gir1.2-gst-plugins-base-1.0,
+         gstreamer1.0-plugins-base,
+         gstreamer1.0-plugins-good,
+         librsvg2-common
+Recommends: gstreamer1.0-pulseaudio | gstreamer1.0-pipewire
+Description: Desktop player for Heartland Public Radio
+ An unofficial GTK 4 player for Heartland Public Radio: Classic Country and
+ Bluegrass Gospel, commercial-free.
+ .
+ Live channels with album art and a recently played list, automatic
+ reconnecting when the stream drops, Good 'N Country episodes on demand with
+ resume, and media-key / sound-menu control (MPRIS). The channel list comes
+ from the same channels.json the Android app uses.

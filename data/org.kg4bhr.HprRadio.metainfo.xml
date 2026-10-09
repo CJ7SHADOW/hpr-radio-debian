@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.kg4bhr.HprRadio</id>
+  <name>HPR Radio</name>
+  <summary>Listen to Heartland Public Radio</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>An unofficial desktop player for Heartland Public Radio: Classic Country and Bluegrass Gospel,
+    commercial-free. Live channels with album art and recently played songs, and Good 'N Country
+    episodes on demand.</p>
+  </description>
+  <launchable type="desktop-id">org.kg4bhr.HprRadio.desktop</launchable>
+  <url type="homepage">https://hpr.org</url>
+  <developer id="org.kg4bhr"><name>Shawn Bolton, KG4BHR</name></developer>
+  <releases><release version="1.0.0" date="2026-10-09"/></releases>
+</component>

@@ -1,0 +1,63 @@
+name: Build .deb
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        debian: [bookworm, trixie]   # Debian 12 and 13
+    runs-on: ubuntu-latest
+    container: debian:${{ matrix.debian }}
+    steps:
+      - name: Install build tools
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates debhelper dpkg-dev \
+            python3 python3-gi gir1.2-glib-2.0
+
+      - uses: actions/checkout@v4
+
+      - name: Build package (runs the tests too)
+        run: |
+          dpkg-buildpackage -us -uc -b
+          mkdir -p out
+          cp ../hpr-radio_*_all.deb out/
+
+      - name: Install it and start the app once
+        run: |
+          apt-get install -y --no-install-recommends ./out/hpr-radio_*_all.deb \
+            xvfb xauth dbus dbus-x11 adwaita-icon-theme
+          hpr-radio --version
+          export HPR_AUDIO_SINK=fakesink
+          set +e
+          timeout 20 xvfb-run -a dbus-run-session -- hpr-radio > app.log 2>&1
+          set -e
+          cat app.log
+          if grep -q "Traceback" app.log; then echo "The app crashed on ${{ matrix.debian }}"; exit 1; fi
+
+      # Plays the real HPR streams (silently), loads real song histories, album art and
+      # Good 'N Country pages, and takes screenshots. Network hiccups don't fail the build.
+      - name: Screenshots against the live HPR services
+        continue-on-error: true
+        run: |
+          apt-get install -y --no-install-recommends imagemagick
+          timeout 120 xvfb-run -a -s "-screen 0 460x820x24" dbus-run-session -- \
+            python3 tools/ci_screenshots.py screenshots 2>&1 | grep -v "a11y" | tee live.log
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpr-radio-deb-${{ matrix.debian }}
+          path: out/*.deb
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ matrix.debian }}
+          path: |
+            screenshots/*.png
+            live.log
+            app.log

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-05",
+
+  "channels": [
+    {
+      "id": "hpr1",
+      "enabled": true,
+      "channel": "HPR1",
+      "name": "Traditional Classic Country",
+      "description": "Mid-1940s through the early 1970s",
+      "color": "#8A4B1F",
+      "streams": [
+        "https://us2.maindigitalstream.com/ssl/7713"
+      ],
+      "recentTracksUrl": "https://us2.maindigitalstream.com:2199/external/rpc.php?m=recenttracks.get&username=hpr1hi&charset=&mountpoint=&rid=hpr1hi&limit=15"
+    },
+    {
+      "id": "hpr2",
+      "enabled": true,
+      "channel": "HPR2",
+      "name": "Today's Classic Country",
+      "description": "Early 1970s through the early 2000s",
+      "color": "#2F5D62",
+      "streams": [
+        "https://us2.maindigitalstream.com/ssl/7735"
+      ],
+      "recentTracksUrl": "https://us2.maindigitalstream.com:2199/external/rpc.php?m=recenttracks.get&username=hpr2hi&charset=&mountpoint=&rid=hpr2hi&limit=15"
+    },
+    {
+      "id": "hpr3",
+      "enabled": false,
+      "channel": "HPR3",
+      "name": "Heartland Christmas",
+      "description": "Country Christmas classics",
+      "color": "#7A1F2B",
+      "streams": [],
+      "recentTracksUrl": "https://us2.maindigitalstream.com:2199/external/rpc.php?m=recenttracks.get&username=hpr3hi&charset=&mountpoint=&rid=hpr3hi&limit=15"
+    },
+    {
+      "id": "hpr4",
+      "enabled": true,
+      "channel": "HPR4",
+      "name": "Bluegrass Gospel",
+      "description": "Soul-soothing Bluegrass Gospel music",
+      "color": "#3B4F7A",
+      "streams": [
+        "https://us2.maindigitalstream.com/ssl/7739"
+      ],
+      "recentTracksUrl": "https://us2.maindigitalstream.com:2199/external/rpc.php?m=recenttracks.get&username=hpr4hi&charset=&mountpoint=&rid=hpr4hi&limit=15"
+    }
+  ],
+
+  "shows": [
+    {
+      "id": "goodncountry",
+      "enabled": true,
+      "title": "Good 'N Country",
+      "badge": "GNC",
+      "host": "Ken Hippler",
+      "channel": "HPR1",
+      "schedule": "New episodes Saturdays at 3 p.m. Central on HPR1",
+      "description": "Traditional, classic and vintage country, including out-of-print records you won't hear anywhere else, plus newer artists keeping the traditional sound alive.",
+      "imageUrl": "https://hpr.org/wp-content/uploads/2020/06/goodncountry.png",
+      "pageUrl": "https://hpr.org/shows/goodncountry/",
+      "episodePages": [
+        {
+          "label": "Recent episodes",
+          "archive": false,
+          "restUrl": "https://hpr.org/wp-json/wp/v2/pages/225?_fields=content",
+          "htmlUrl": "https://hpr.org/shows/goodncountry/"
+        },
+        {
+          "label": "Archive",
+          "archive": true,
+          "restUrl": "https://hpr.org/wp-json/wp/v2/pages/4250?_fields=content",
+          "htmlUrl": "https://hpr.org/shows/goodncountry/archives/"
+        }
+      ]
+    }
+  ]
+}

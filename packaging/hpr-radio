@@ -1,0 +1,4 @@
+#!/bin/sh
+# Launcher installed to /usr/bin/hpr-radio by the Debian package.
+export PYTHONPATH="/usr/share/hpr-radio${PYTHONPATH:+:$PYTHONPATH}"
+exec /usr/bin/python3 -m hpr_radio "$@"
