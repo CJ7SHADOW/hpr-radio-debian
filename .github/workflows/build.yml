@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -65,3 +68,30 @@ jobs:
             live.log
             app.log
             build.log
+
+      # Same results, as a branch per Debian release (easier to look at than zipped artifacts).
+      - name: Publish results to the ci-results-${{ matrix.debian }} branch
+        if: always() && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/results && cp -r screenshots live.log app.log build.log /tmp/results/ 2>/dev/null || true
+          cd /tmp/results
+          git init -q -b results && git config user.name "github-actions" && git config user.email "actions@github.com"
+          git add -A && git commit -qm "CI results for ${GITHUB_SHA::7} on ${{ matrix.debian }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" results:ci-results-${{ matrix.debian }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpr-radio-deb-bookworm
+      - name: Publish the .deb as a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" hpr-radio_*_all.deb -R "${{ github.repository }}" \
+            --title "HPR Radio ${GITHUB_REF_NAME#v}" \
+            --notes "Download hpr-radio_*_all.deb below, then: sudo apt install ./hpr-radio_*_all.deb  (Debian 12/13, Ubuntu 24.04+, Raspberry Pi OS)"
