@@ -91,7 +91,7 @@ class Hub(GObject.Object):
         if hit is not None or artwork.is_known(artist, title):
             callback(hit)
             return
-        net.run_async(artwork.find, artist, title, callback=callback)
+        net.run_async(artwork.find, artist, title, callback=callback, background=True)
 
     def _on_player_changed(self, _p) -> None:
         p = self.player

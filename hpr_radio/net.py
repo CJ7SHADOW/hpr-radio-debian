@@ -13,7 +13,10 @@ from typing import Callable
 from . import __version__
 
 USER_AGENT = f"HPRRadio/{__version__} (Linux; +https://hpr.org)"
-_executor = ThreadPoolExecutor(max_workers=6, thread_name_prefix="hpr-net")
+# Two pools so the long tail of album-art lookups and image downloads never delays what
+# the user is waiting on (episode lists, the channel list, song histories).
+_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="hpr-net")
+_background = ThreadPoolExecutor(max_workers=4, thread_name_prefix="hpr-art")
 
 
 def get(url: str, timeout: float = 10.0, max_bytes: int = 2_000_000) -> bytes | None:
@@ -34,8 +37,9 @@ def get_text(url: str, timeout: float = 10.0, max_bytes: int = 2_000_000) -> str
     return body.decode("utf-8", "replace") if body is not None else None
 
 
-def run_async(fn: Callable, *args, callback: Callable | None = None) -> None:
-    """Run fn(*args) on a worker thread, then callback(result) on the GTK main loop."""
+def run_async(fn: Callable, *args, callback: Callable | None = None, background: bool = False) -> None:
+    """Run fn(*args) on a worker thread, then callback(result) on the GTK main loop.
+    background=True uses the separate pool for art lookups and image downloads."""
     from gi.repository import GLib
 
     def done(future):
@@ -46,7 +50,7 @@ def run_async(fn: Callable, *args, callback: Callable | None = None) -> None:
         if callback is not None:
             GLib.idle_add(lambda: (callback(result), False)[1])
 
-    _executor.submit(fn, *args).add_done_callback(done)
+    (_background if background else _executor).submit(fn, *args).add_done_callback(done)
 
 
 _TAG = re.compile(r"<[^>]+>")
