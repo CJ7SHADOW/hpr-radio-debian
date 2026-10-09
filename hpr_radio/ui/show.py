@@ -91,16 +91,35 @@ class ShowPage(Gtk.Box):
         clear(self.sections)
         self._rows = []
 
-        def section(title: str, eps) -> None:
-            self.sections.append(label(title, "section"))
+        def episode_list(eps) -> Gtk.ListBox:
             lb = Gtk.ListBox(selection_mode=Gtk.SelectionMode.NONE)
             lb.add_css_class("boxed-list")
             lb.connect("row-activated", lambda _l, row: self._activate(row.episode))
             for ep in eps:
                 row = _EpisodeRow(self, ep)
                 self._rows.append(row)
+                row.refresh()
                 lb.append(row)
-            self.sections.append(lb)
+            return lb
+
+        def section(title: str, eps) -> None:
+            self.sections.append(label(title, "section"))
+            self.sections.append(episode_list(eps))
+
+        def year_section(title: str, eps, expanded: bool) -> None:
+            exp = Gtk.Expander(expanded=False)
+            head = label(f"{title}  ·  {len(eps)}", "section")
+            exp.set_label_widget(head)
+            exp.add_css_class("year")
+
+            def on_expanded(e, _pspec):
+                if e.get_expanded() and e.get_child() is None:
+                    lb = episode_list(eps)
+                    lb.set_margin_top(6)
+                    e.set_child(lb)
+            exp.connect("notify::expanded", on_expanded)
+            exp.set_expanded(expanded)
+            self.sections.append(exp)
 
         if self.recent_eps is not None:
             section("Recent episodes", self.recent_eps)
@@ -115,8 +134,8 @@ class ShowPage(Gtk.Box):
                 for e in self.archive_eps:
                     if e.key not in recent_keys:
                         by_year.setdefault(e.year, []).append(e)
-                for year in sorted(by_year, reverse=True):
-                    section(f"Archive · {year}" if year else "Archive", by_year[year])
+                for i, year in enumerate(sorted(by_year, reverse=True)):
+                    year_section(f"Archive · {year}" if year else "Archive", by_year[year], i == 0)
             elif self.recent_eps is not None:
                 self.sections.append(label("Archive", "section"))
                 self.sections.append(self._loading_or_error(self.archive_failed, "Loading the archive…"))
@@ -213,6 +232,8 @@ class _EpisodeRow(Gtk.ListBoxRow):
         self.menu_button = Gtk.MenuButton(icon_name="view-more-symbolic", valign=Gtk.Align.CENTER)
         self.menu_button.add_css_class("flat")
         self.menu_button.set_tooltip_text("More options")
+        self.menu_button.set_create_popup_func(self._build_menu)
+        self._state = object()
         box.append(self.menu_button)
         self.set_child(box)
         self.hub = hub
@@ -221,13 +242,18 @@ class _EpisodeRow(Gtk.ListBoxRow):
         hub, ep = self.hub, self.episode
         p = hub.player
         current = p.episode is not None and p.episode.key == ep.key
+        pr = hub.progress.get(ep.key)
+        state = (current, p.status if current else None,
+                 (pr.done, round(pr.fraction, 3), int(pr.remaining) // 60) if pr else None)
+        if state == self._state:
+            return
+        self._state = state
         if current:
             self.title.add_css_class("current")
         else:
             self.title.remove_css_class("current")
         self.button.update(p.status if current else Status.STOPPED, pauses=True)
 
-        pr = hub.progress.get(ep.key)
         if pr and pr.done:
             self.bar.set_visible(False)
             self.progress_label.set_label("✓ Played")
@@ -240,14 +266,18 @@ class _EpisodeRow(Gtk.ListBoxRow):
         else:
             self.progress_box.set_visible(False)
 
+    def _build_menu(self, button) -> None:
+        # Built when opened rather than on every refresh: a menu model makes a popover,
+        # and doing that for a few hundred rows at once stalls GTK 4.8 (Debian 12).
+        pr = self.hub.progress.get(self.episode.key)
         menu = Gio.Menu()
         if pr and not pr.done and pr.position > 0:
             menu.append("Play from the beginning", "ep.restart")
-        if ep.playlist_url:
+        if self.episode.playlist_url:
             menu.append("View playlist (PDF)", "ep.playlist")
         menu.append("Mark as unplayed" if pr and pr.done else "Mark as played",
                     "ep.unplayed" if pr and pr.done else "ep.played")
-        self.menu_button.set_menu_model(menu)
+        button.set_menu_model(menu)
 
     def _on_play(self, _b) -> None:
         p = self.hub.player
