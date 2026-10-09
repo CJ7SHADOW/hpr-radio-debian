@@ -30,7 +30,9 @@ def at(delay_ms, fn):
 
 def shot(name):
     p = app.hub.player
-    print(f"[{name}] catalog={app.hub.catalog.source} status={p.status} "
+    from hpr_radio import net as _n
+    import time as _t
+    print(f"[{name}] t={_t.monotonic() - _n._T0:.1f} catalog={app.hub.catalog.source} status={p.status} "
           f"song={p.song_artist!r} - {p.song_title!r} art={app.hub.now_art}", flush=True)
     subprocess.run(["import", "-window", "root", os.path.join(OUT, f"{name}.png")], check=False)
 

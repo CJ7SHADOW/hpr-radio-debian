@@ -51,8 +51,9 @@ jobs:
         continue-on-error: true
         run: |
           apt-get install -y --no-install-recommends imagemagick
+          export HPR_DEBUG=1
           timeout 120 xvfb-run -a -s "-screen 0 460x820x24" dbus-run-session -- \
-            python3 tools/ci_screenshots.py screenshots 2>&1 | grep -v "a11y" | tee live.log
+            python3 tools/ci_screenshots.py screenshots 2>&1 | grep -v "a11y\|net\] art" | tee live.log
 
       - uses: actions/upload-artifact@v4
         with:

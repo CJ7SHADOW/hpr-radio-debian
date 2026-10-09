@@ -54,7 +54,7 @@ class ImageCache:
             self._waiting[url].append(callback)
             return
         self._waiting[url] = [callback]
-        net.run_async(_fetch, url, callback=lambda data: self._loaded(url, data), background=True)
+        net.run_async(_fetch, url, callback=lambda data: self._loaded(url, data), lane="art")
 
     def local_uri(self, url: str | None) -> str | None:
         """file:// address of a cached image (for the desktop's media controls)."""

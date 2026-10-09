@@ -40,6 +40,7 @@ class Hub(GObject.Object):
         self.now_art: Artwork | None = None
         self._now_key = None
         self._poll_source = 0
+        self._fetching: set[str] = set()
 
         self.player.connect("changed", self._on_player_changed)
         self.catalog.connect("changed", lambda *_: self.refresh_recent())
@@ -62,9 +63,14 @@ class Hub(GObject.Object):
 
     def refresh_recent(self) -> None:
         for st in self.catalog.available:
-            net.run_async(recent.fetch, st, callback=lambda tracks, sid=st.id: self._got_recent(sid, tracks))
+            if st.id in self._fetching:
+                continue  # the last request for this channel hasn't come back yet
+            self._fetching.add(st.id)
+            net.run_async(recent.fetch, st, lane="poll",
+                          callback=lambda tracks, sid=st.id: self._got_recent(sid, tracks))
 
     def _got_recent(self, sid: str, tracks) -> None:
+        self._fetching.discard(sid)
         self.recent_loaded = True
         if tracks is not None:
             self.recent[sid] = recent.merge(self.recent.get(sid), tracks)
@@ -91,7 +97,7 @@ class Hub(GObject.Object):
         if hit is not None or artwork.is_known(artist, title):
             callback(hit)
             return
-        net.run_async(artwork.find, artist, title, callback=callback, background=True)
+        net.run_async(artwork.find, artist, title, callback=callback, lane="art")
 
     def _on_player_changed(self, _p) -> None:
         p = self.player
