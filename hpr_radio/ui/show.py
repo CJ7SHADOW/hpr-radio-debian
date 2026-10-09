@@ -296,8 +296,8 @@ class _EpisodeRow(Gtk.ListBoxRow):
 
     def _played(self) -> None:
         self.hub.progress.mark_played(self.episode.key)
-        GLib.idle_add(lambda: (self.hub.emit("progress"), False)[1])
+        GLib.idle_add(lambda: (self.hub.emit("progress"), False)[1], priority=GLib.PRIORITY_DEFAULT)
 
     def _unplayed(self) -> None:
         self.hub.progress.clear(self.episode.key)
-        GLib.idle_add(lambda: (self.hub.emit("progress"), False)[1])
+        GLib.idle_add(lambda: (self.hub.emit("progress"), False)[1], priority=GLib.PRIORITY_DEFAULT)

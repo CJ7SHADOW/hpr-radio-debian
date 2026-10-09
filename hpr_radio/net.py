@@ -60,7 +60,9 @@ def run_async(fn: Callable, *args, callback: Callable | None = None, lane: str =
                     print(f"[net] delivered t={time.monotonic() - _T0:.1f}", flush=True)
                 callback(result)
                 return False
-            GLib.idle_add(deliver)
+            # Default priority, not idle: an animating spinner keeps GTK 4.8 from ever going
+            # idle under software rendering, which held results back for 15+ seconds.
+            GLib.idle_add(deliver, priority=GLib.PRIORITY_DEFAULT)
 
     queued = time.monotonic()
 
