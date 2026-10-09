@@ -16,8 +16,8 @@ same `channels.json`.
 
 ## Install
 
-Download **hpr-radio-deb-bookworm** (Debian 12) or **hpr-radio-deb-trixie** (Debian 13) from the latest
-run on the repo's **Actions** tab, unzip it, then:
+Download `hpr-radio_1.0.0_all.deb` from the repo's **Releases** page (one package works on Debian 12 and
+13), then:
 
 ```bash
 sudo apt install ./hpr-radio_1.0.0_all.deb
