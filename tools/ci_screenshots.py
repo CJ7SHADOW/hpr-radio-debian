@@ -46,6 +46,14 @@ def report():
             eps = episodes.cached(src)
             print(f"episodes {show.id}/{src.label}: {len(eps) if eps else eps} "
                   f"{eps[0].title + ' ' + eps[0].audio_url if eps else ''}", flush=True)
+            for url in (src.rest_url, src.html_url):
+                if url:
+                    import time
+                    from hpr_radio import net
+                    t0 = time.monotonic()
+                    body = net.get(url, timeout=30, max_bytes=5_000_000)
+                    print(f"  fetch {url}: {len(body) if body else body} bytes "
+                          f"in {time.monotonic() - t0:.1f}s", flush=True)
 
 
 def script():
