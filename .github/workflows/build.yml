@@ -12,18 +12,21 @@ jobs:
         debian: [bookworm, trixie]   # Debian 12 and 13
     runs-on: ubuntu-latest
     container: debian:${{ matrix.debian }}
+    defaults:
+      run:
+        shell: bash
     steps:
       - name: Install build tools
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends git ca-certificates debhelper dpkg-dev \
+          apt-get install -y --no-install-recommends git ca-certificates build-essential debhelper dpkg-dev \
             python3 python3-gi gir1.2-glib-2.0
 
       - uses: actions/checkout@v4
 
       - name: Build package (runs the tests too)
         run: |
-          dpkg-buildpackage -us -uc -b
+          dpkg-buildpackage -us -uc -b 2>&1 | tee build.log; test "${PIPESTATUS[0]}" -eq 0
           mkdir -p out
           cp ../hpr-radio_*_all.deb out/
 
@@ -61,3 +64,4 @@ jobs:
             screenshots/*.png
             live.log
             app.log
+            build.log
