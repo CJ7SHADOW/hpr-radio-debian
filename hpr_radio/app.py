@@ -124,6 +124,8 @@ class HprApplication(Adw.Application):
     def _on_shortcuts(self, *_a) -> None:
         text = ("Space — play / stop\n"
                 "Esc or Alt+← — back\n"
+                "Ctrl+↑ / Ctrl+↓ — volume up / down\n"
+                "Ctrl+M — mute\n"
                 "Ctrl+R or F5 — reload channel list\n"
                 "Ctrl+Q — quit\n\n"
                 "Media keys work too: Play/Pause, Next/Previous\n"

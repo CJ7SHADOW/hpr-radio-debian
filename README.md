@@ -11,16 +11,18 @@ same `channels.json`.
   resume where you stopped, playlist PDFs
 - **Media keys and the desktop's sound menu** (MPRIS): Play/Pause, Stop, Next/Previous. For live radio,
   Next/Previous switch channels; in an episode they skip forward 30 s / back 15 s
+- **Its own volume control** (the speaker button at the top), separate from the system volume.
+  Scroll over it, or use Ctrl+↑/↓ and Ctrl+M to mute; it remembers your level
 - Keeps the computer from sleeping while something's playing
 - Light and dark mode follow your desktop
 
 ## Install
 
-Download `hpr-radio_1.0.0_all.deb` from the repo's **Releases** page (one package works on Debian 12 and
+Download `hpr-radio_1.1.0_all.deb` from the repo's **Releases** page (one package works on Debian 12 and
 13), then:
 
 ```bash
-sudo apt install ./hpr-radio_1.0.0_all.deb
+sudo apt install ./hpr-radio_1.1.0_all.deb
 ```
 
 `apt` pulls in GTK 4, libadwaita and GStreamer if they aren't already there. Then start **HPR Radio**
@@ -47,7 +49,7 @@ To point it somewhere else, for testing say, either:
 
 | | |
 |---|---|
-| `~/.config/hpr-radio/settings.json` | settings: volume, last channel, working stream per channel |
+| `~/.config/hpr-radio/settings.json` | settings: volume and mute, last channel, working stream per channel |
 | `~/.local/share/hpr-radio/progress.json` | where you stopped in each episode |
 | `~/.cache/hpr-radio/` | saved channel list, album art, art lookups (safe to delete) |
 

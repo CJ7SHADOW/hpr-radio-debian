@@ -1,3 +1,11 @@
+hpr-radio (1.1.0) unstable; urgency=medium
+
+  * Volume control in the header bar (slider, scroll, Ctrl+Up/Down, Ctrl+M
+    mute), remembered between runs. First run starts at 70%.
+  * Faster Good 'N Country page on GTK 4.8; archive grouped by year.
+
+ -- Shawn Bolton <kg4bhr@verizon.net>  Fri, 09 Oct 2026 19:15:00 -0500
+
 hpr-radio (1.0.0) unstable; urgency=medium
 
   * First release: live channels with album art and recently played songs,

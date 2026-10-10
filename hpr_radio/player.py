@@ -78,7 +78,9 @@ class Player(GObject.Object):
         if self.pb is None:
             raise RuntimeError("GStreamer 'playbin' is missing (install gstreamer1.0-plugins-base)")
         self.pb.props.flags = _PLAY_FLAG_AUDIO | _PLAY_FLAG_SOFT_VOLUME
-        self.pb.props.volume = float(settings.get("volume", 1.0))
+        # First run starts at 70% on the slider (about -9 dB), not full scale.
+        self.pb.props.volume = float(settings.get("volume", 0.7 ** 3))
+        self.pb.props.mute = bool(settings.get("muted", False))
         sink_name = os.environ.get("HPR_AUDIO_SINK")  # e.g. "fakesink" for testing without a sound card
         if sink_name:
             sink = Gst.ElementFactory.make(sink_name)
@@ -232,6 +234,15 @@ class Player(GObject.Object):
     @property
     def volume(self) -> float:
         return float(self.pb.props.volume)
+
+    def set_muted(self, muted: bool) -> None:
+        self.pb.props.mute = bool(muted)
+        self.settings.set("muted", bool(muted))
+        self.emit("changed")
+
+    @property
+    def muted(self) -> bool:
+        return bool(self.pb.props.mute)
 
     def shutdown(self) -> None:
         self._save_episode_progress()

@@ -2,7 +2,8 @@
 
     {
       "config_url": "https://hpr.org/apps/android/channels.json",
-      "volume": 1.0
+      "volume": 0.343,    # linear gain 0..1; the slider shows its cube root (0.343 = 70%)
+      "muted": false
     }
 
 config_url can also be overridden for one run with the HPR_CONFIG_URL environment

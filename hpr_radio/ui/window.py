@@ -10,6 +10,7 @@ from .channel import ChannelPage
 from .episode import EpisodePage
 from .home import HomePage
 from .show import ShowPage
+from .volume import VolumeButton
 from .widgets import Art, PlayButton, label
 
 
@@ -91,6 +92,8 @@ class MainWindow(Adw.ApplicationWindow):
         menu.append("About HPR Radio", "app.about")
         self.header.pack_end(Gtk.MenuButton(icon_name="open-menu-symbolic", menu_model=menu,
                                             tooltip_text="Main menu"))
+        self.volume = VolumeButton(hub.player)
+        self.header.pack_end(self.volume)
 
         self.stack = Gtk.Stack(transition_type=Gtk.StackTransitionType.SLIDE_LEFT_RIGHT,
                                transition_duration=180, vexpand=True)
@@ -205,6 +208,16 @@ class MainWindow(Adw.ApplicationWindow):
             if self.pages:
                 self.go_back()
                 return True
+        ctrl = state & Gdk.ModifierType.CONTROL_MASK
+        if ctrl and keyval in (Gdk.KEY_Up, Gdk.KEY_plus, Gdk.KEY_equal, Gdk.KEY_KP_Add):
+            self.volume.nudge(+0.05)
+            return True
+        if ctrl and keyval in (Gdk.KEY_Down, Gdk.KEY_minus, Gdk.KEY_KP_Subtract):
+            self.volume.nudge(-0.05)
+            return True
+        if ctrl and keyval in (Gdk.KEY_m, Gdk.KEY_M):
+            self.hub.player.set_muted(not self.hub.player.muted)
+            return True
         if keyval == Gdk.KEY_space and not isinstance(self.get_focus(), (Gtk.Text, Gtk.Entry)):
             self.hub.player.toggle()
             return True
