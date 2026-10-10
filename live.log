@@ -1,0 +1,33 @@
+
+[net] page t=0.4 get_text: waited 0.0s, ran 0.2s
+[net] delivered t=0.4
+[net] poll t=0.5 fetch: waited 0.0s, ran 0.3s
+[net] poll t=0.5 fetch: waited 0.0s, ran 0.4s
+[net] poll t=0.5 fetch: waited 0.0s, ran 0.4s
+[1-home] t=8.4 catalog=live from server status=stopped song=None - None art=None
+[net] poll t=20.8 fetch: waited 0.0s, ran 0.3s
+[net] poll t=20.8 fetch: waited 0.0s, ran 0.3s
+[net] poll t=20.8 fetch: waited 0.0s, ran 0.3s
+[2-home-playing] t=23.9 catalog=live from server status=playing song='Bobby Bare' - 'Charleston Railroad Tavern' art=Artwork(image_url='https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/21/8c/d4/218cd455-dfd7-a06d-f091-f867b813ee06/886444230100.jpg/600x600bb.jpg', album='The Essential Bobby Bare')
+[3-channel] t=30.4 catalog=live from server status=playing song='Bobby Bare' - 'Charleston Railroad Tavern' art=Artwork(image_url='https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/21/8c/d4/218cd455-dfd7-a06d-f091-f867b813ee06/886444230100.jpg/600x600bb.jpg', album='The Essential Bobby Bare')
+[net] page t=31.8 load: waited 0.0s, ran 0.4s
+[net] delivered t=31.8
+[net] page t=32.0 load: waited 0.0s, ran 0.6s
+[net] delivered t=32.0
+[net] poll t=40.7 fetch: waited 0.0s, ran 0.2s
+[net] poll t=40.7 fetch: waited 0.0s, ran 0.2s
+[net] poll t=40.7 fetch: waited 0.0s, ran 0.3s
+[4-show] t=43.4 catalog=live from server status=playing song='Bobby Bare' - 'Charleston Railroad Tavern' art=Artwork(image_url='https://is1-ssl.mzstatic.com/image/thumb/Music4/v4/21/8c/d4/218cd455-dfd7-a06d-f091-f867b813ee06/886444230100.jpg/600x600bb.jpg', album='The Essential Bobby Bare')
+[5-episode] t=58.9 catalog=live from server status=playing song=None - None art=None
+recent hpr1: 11 Patsy Cline - Sweet Dreams
+recent hpr2: 11 Leon Everette - Hurricane
+recent hpr4: 10 Don Stanley and Middle Creek - This World Is Not My Home
+episodes goodncountry/Recent episodes: 38 Saturday, October 3, 2026 https://archive.org/download/good-n-country-10-3-2026/Good%20%27N%20Country%2010-3-2026.mp3
+  fetch https://hpr.org/wp-json/wp/v2/pages/225?_fields=content: 30573 bytes in 0.5s
+  fetch https://hpr.org/shows/goodncountry/: 64515 bytes in 0.5s
+episodes goodncountry/Archive: 275 Saturday, December 20, 2025 https://archive.org/download/good-n-country-12-20-2025/Good%20%27N%20Country%2012-20-2025.mp3
+  fetch https://hpr.org/wp-json/wp/v2/pages/4250?_fields=content: 187312 bytes in 0.7s
+  fetch https://hpr.org/shows/goodncountry/archives/: 192062 bytes in 0.6s
+[net] poll t=61.9 fetch: waited 0.0s, ran 0.2s
+[net] poll t=61.9 fetch: waited 0.0s, ran 0.2s
+[net] poll t=61.9 fetch: waited 0.0s, ran 0.2s
